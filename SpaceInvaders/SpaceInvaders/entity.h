@@ -1,18 +1,21 @@
 #pragma once
 #include <iostream>
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include "global.h"
 
 class Entity {
 
 public:
 	Entity();
-	Entity(int x, int y);
-	void render(const int WIDTH, const int HEIGHT);
+	Entity(double x, double y);
+	void render(SDL_Texture * image, SDL_Renderer *renderer);
 
 protected:
-	int x, y;
+	double x, y;
+	int w, h;
+	SDL_Rect textureRect;
+	SDL_Rect rect;
 	//virtual void move() = 0;
 };

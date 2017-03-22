@@ -3,26 +3,66 @@
 #include <main.h>
 #undef main
 
+
 int main(int argc, char *argv[])
 {
 
 	WIDTH = 640;
 	HEIGHT = 480;
+	SCALE = 2;
+	LOGICAL_WIDTH = 320;
+	LOGICAL_HEIGHT = 240;
 
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
 
-	init_SDL(window, renderer);
+	SDL_Init(SDL_INIT_VIDEO);
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
-	SpaceInvaders game(WIDTH, HEIGHT);
+	window = SDL_CreateWindow("Game Window",
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+		WIDTH,
+		HEIGHT,
+		0
+	);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_RenderSetLogicalSize(renderer, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
+	SpaceInvaders game(LOGICAL_WIDTH, LOGICAL_HEIGHT, renderer);
+
+
+	//int bRunning = 1; 
+	int frameRate = 60; 
+	double frameMs = 1000 / (double)frameRate; //calculate the length of each frame 
+	double delta = 0;
 	int done = 0;
+
+	Uint32 currentTick = SDL_GetTicks();
+	Uint32 previousTick = currentTick;
+	Uint32 frameTimer = currentTick;
+	int ticks = 0;
 	while (!done)
 	{
+		previousTick = currentTick;
+		currentTick = SDL_GetTicks();
+
+		delta += currentTick - previousTick;
+
+		if (delta > frameMs) {
+			game.update(delta / 1000.0);
+			game.render();
+			ticks++;
+			delta = (delta - frameMs);
+		}
+
+		if (currentTick - frameTimer > 1000) {
+			std::cout << "frames:\t" << ticks << std::endl;
+			frameTimer = currentTick;
+			ticks = 0;
+		}
+		SDL_Delay(1);
 		done = process_events(window);
-		game.update();
-		//render(renderer);
-		SDL_Delay(10);
 	}
 
 	SDL_DestroyWindow(window);
@@ -62,17 +102,6 @@ int process_events(SDL_Window *window)
 
 void init_SDL(SDL_Window *window, SDL_Renderer *renderer) 
 {
-	SDL_Init(SDL_INIT_VIDEO);
-	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-
-	window = SDL_CreateWindow("Game Window",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		WIDTH,
-		HEIGHT,
-		0
-	);
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 
 }

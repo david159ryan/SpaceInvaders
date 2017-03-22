@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-
+#include <global.h>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -13,6 +13,9 @@
 
 int WIDTH;
 int HEIGHT;
+int LOGICAL_WIDTH;
+int LOGICAL_HEIGHT;
+int SCALE;
 
 int process_events(SDL_Window *window);
 void init_SDL(SDL_Window *window, SDL_Renderer *renderer);

@@ -6,11 +6,11 @@ class Player : public Entity {
 
 public :
 	Player();
-	Player(int x, int y);
-	void update(const Uint8 *keyState);
+	Player(double x, double y);
+	void update(const Uint8 *keyState, double delta);
 
 private:
 	int xDir = 0;
-	float speed = 1;
-	void move();
+	double speed = 100;
+	void move(double delta);
 };

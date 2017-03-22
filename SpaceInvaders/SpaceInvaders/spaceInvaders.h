@@ -6,14 +6,20 @@
 class SpaceInvaders {
 public:
 	SpaceInvaders();
-	SpaceInvaders(int WIDTH, int HEIGHT);
+	SpaceInvaders(int WIDTH, int HEIGHT, SDL_Renderer *renderer);
 	void render();
-	void update();
+	void update(double delta);
 
 private:
+	int PLAYER_Y_OFFSET;
+	
 	int WIDTH;
 	int HEIGHT;
 	const Uint8 *keyState;
+	SDL_Renderer *renderer;
 	//std::vector<Entity> enemies;
 	Player *player;
+	SDL_Texture * texture;
+	void load_sprites();
+
 };
