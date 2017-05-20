@@ -7,19 +7,21 @@ class SpaceInvaders {
 public:
 	SpaceInvaders();
 	SpaceInvaders(int WIDTH, int HEIGHT, SDL_Renderer *renderer);
-	void render();
-	void update(double delta);
+	void Render();
+	void Update(double delta);
+	const int GetWidth();
+	const int GetHeight();
+	static const int SIDE_BORDER = 10;
+	static const int PLAYER_Y_OFFSET = 20;
 
-private:
-	int PLAYER_Y_OFFSET;
-	
+private:	
 	int WIDTH;
 	int HEIGHT;
-	const Uint8 *keyState;
+	const Uint8 *key_state;
 	SDL_Renderer *renderer;
 	//std::vector<Entity> enemies;
 	Player *player;
 	SDL_Texture * texture;
-	void load_sprites();
+	void LoadSprites();
 
 };

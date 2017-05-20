@@ -1,5 +1,7 @@
+#pragma once
 #include <player.h>
 #include <global.h>
+#include <SpaceInvaders.h>
 
 Player::Player() : Player(0, 0)
 {
@@ -11,28 +13,41 @@ Player::Player(double x, double y) : Entity(x, y)
 	std::cout << "In player constructor:" << std::endl;
 	w = 13;
 	h = 8;
-	textureRect = { 0, 0, w, h };
+	x_dir = 0;
+	speed = 100;
+	texture_rect = { 0, 0, w, h };
 	rect = { (int)x, (int)y, w , h};
+
 }
 
-void Player::move(double delta)
+void Player::Move(double delta)
 {
-	x += xDir * speed * delta;
-	//std::cout << "xdir * speed:\t" << (xDir * speed) << "\t:\t" << delta << std::endl;
-	xDir = 0;
+	double step = x_dir * speed * delta;
+
+	x += step;
 	rect = { (int)x, (int)y, w, h};
+	x_dir = 0;
+	//std::cout << "xdir * speed:\t" << (xDir * speed) << "\t:\t" << delta << std::endl;
+}
+
+void Player::Move()
+{
+	//Intentionally Blank
 }
 
 
-void Player::update(const Uint8 *keyState, double delta)
+void Player::Update(const Uint8 *keyState, double delta)
 {
 	
 	if (keyState[SDL_SCANCODE_A])
-		xDir = -1;
+		x_dir = -1;
 	if (keyState[SDL_SCANCODE_D])
-		xDir = 1;
-
-	move(delta);
+		x_dir = 1;
 
 	//std::cout << "delta:" <<  delta << std::endl;
+}
+
+int Player::GetDirection()
+{
+	return x_dir;
 }

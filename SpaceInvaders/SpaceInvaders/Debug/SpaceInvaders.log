@@ -1,21 +1,30 @@
-﻿  player.cpp
-  entity.cpp
+﻿  entity.cpp
   Generating Code...
   Compiling...
   spaceInvaders.cpp
-  main.cpp
   Generating Code...
-main.obj : error LNK2019: unresolved external symbol _SDL_CreateWindow referenced in function "void __cdecl init_SDL(struct SDL_Window *,struct SDL_Renderer *)" (?init_SDL@@YAXPAUSDL_Window@@PAUSDL_Renderer@@@Z)
-main.obj : error LNK2019: unresolved external symbol _SDL_DestroyWindow referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+  Skipping... (no relevant changes detected)
+  player.cpp
+  main.cpp
+entity.obj : error LNK2019: unresolved external symbol _SDL_RenderCopy referenced in function "public: void __thiscall Entity::render(struct SDL_Texture *,struct SDL_Renderer *)" (?render@Entity@@QAEXPAUSDL_Texture@@PAUSDL_Renderer@@@Z)
+main.obj : error LNK2019: unresolved external symbol _SDL_CreateWindow referenced in function _main
+main.obj : error LNK2019: unresolved external symbol _SDL_DestroyWindow referenced in function "int __cdecl process_events(struct SDL_Window *)" (?process_events@@YAHPAUSDL_Window@@@Z)
 main.obj : error LNK2019: unresolved external symbol _SDL_PollEvent referenced in function "int __cdecl process_events(struct SDL_Window *)" (?process_events@@YAHPAUSDL_Window@@@Z)
-main.obj : error LNK2019: unresolved external symbol _SDL_CreateRenderer referenced in function "void __cdecl init_SDL(struct SDL_Window *,struct SDL_Renderer *)" (?init_SDL@@YAXPAUSDL_Window@@PAUSDL_Renderer@@@Z)
-main.obj : error LNK2019: unresolved external symbol _SDL_DestroyRenderer referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
-main.obj : error LNK2019: unresolved external symbol _SDL_Delay referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
-main.obj : error LNK2019: unresolved external symbol _SDL_Init referenced in function "void __cdecl init_SDL(struct SDL_Window *,struct SDL_Renderer *)" (?init_SDL@@YAXPAUSDL_Window@@PAUSDL_Renderer@@@Z)
-main.obj : error LNK2019: unresolved external symbol _IMG_Init referenced in function "void __cdecl init_SDL(struct SDL_Window *,struct SDL_Renderer *)" (?init_SDL@@YAXPAUSDL_Window@@PAUSDL_Renderer@@@Z)
-spaceInvaders.obj : error LNK2019: unresolved external symbol _SDL_GetKeyboardState referenced in function "public: __thiscall SpaceInvaders::SpaceInvaders(int,int)" (??0SpaceInvaders@@QAE@HH@Z)
-MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol _main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_CreateRenderer referenced in function _main
+main.obj : error LNK2019: unresolved external symbol _SDL_RenderSetLogicalSize referenced in function _main
+main.obj : error LNK2019: unresolved external symbol _SDL_DestroyRenderer referenced in function _main
+main.obj : error LNK2019: unresolved external symbol _SDL_GetTicks referenced in function _main
+main.obj : error LNK2019: unresolved external symbol _SDL_Delay referenced in function _main
+main.obj : error LNK2019: unresolved external symbol _SDL_Init referenced in function _main
+main.obj : error LNK2019: unresolved external symbol _IMG_Init referenced in function _main
+spaceInvaders.obj : error LNK2019: unresolved external symbol _SDL_FreeSurface referenced in function "private: void __thiscall SpaceInvaders::LoadSprites(void)" (?LoadSprites@SpaceInvaders@@AAEXXZ)
+spaceInvaders.obj : error LNK2019: unresolved external symbol _SDL_GetKeyboardState referenced in function "public: __thiscall SpaceInvaders::SpaceInvaders(int,int,struct SDL_Renderer *)" (??0SpaceInvaders@@QAE@HHPAUSDL_Renderer@@@Z)
+spaceInvaders.obj : error LNK2019: unresolved external symbol _SDL_CreateTextureFromSurface referenced in function "private: void __thiscall SpaceInvaders::LoadSprites(void)" (?LoadSprites@SpaceInvaders@@AAEXXZ)
+spaceInvaders.obj : error LNK2019: unresolved external symbol _SDL_RenderClear referenced in function "public: void __thiscall SpaceInvaders::Render(void)" (?Render@SpaceInvaders@@QAEXXZ)
+spaceInvaders.obj : error LNK2019: unresolved external symbol _SDL_RenderPresent referenced in function "public: void __thiscall SpaceInvaders::Render(void)" (?Render@SpaceInvaders@@QAEXXZ)
+spaceInvaders.obj : error LNK2019: unresolved external symbol _IMG_Load referenced in function "private: void __thiscall SpaceInvaders::LoadSprites(void)" (?LoadSprites@SpaceInvaders@@AAEXXZ)
+spaceInvaders.obj : error LNK2001: unresolved external symbol "public: static int const SpaceInvaders::SIDE_BORDER" (?SIDE_BORDER@SpaceInvaders@@2HB)
 .\lib\SDL2.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'X86'
 .\lib\SDL2_image.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'X86'
 .\lib\SDL2_ttf.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'X86'
-C:\Users\Dave\Source\Repos\SpaceInvaders\SpaceInvaders\Debug\SpaceInvaders.exe : fatal error LNK1120: 10 unresolved externals
+C:\Users\Dave\Source\Repos\SpaceInvaders\SpaceInvaders\Debug\SpaceInvaders.exe : fatal error LNK1120: 18 unresolved externals

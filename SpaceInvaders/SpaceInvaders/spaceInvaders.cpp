@@ -10,12 +10,12 @@ SpaceInvaders::SpaceInvaders(int WIDTH, int HEIGHT, SDL_Renderer *renderer)
 	this->WIDTH = WIDTH;
 	this->HEIGHT = HEIGHT;
 	this->renderer = renderer;
-	keyState = SDL_GetKeyboardState(NULL);
+	key_state = SDL_GetKeyboardState(NULL);
 	player = new Player(100, HEIGHT  - 20);
-	load_sprites();
+	LoadSprites();
 }
 
-void SpaceInvaders::render()
+void SpaceInvaders::Render()
 {
 	//fprintf(stdout, "width:\t%d\nheight:\t%d\n", WIDTH, HEIGHT);
 	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -24,12 +24,17 @@ void SpaceInvaders::render()
 	SDL_RenderPresent(renderer);
 }
 
-void SpaceInvaders::update(double delta)
+void SpaceInvaders::Update(double delta)
 {
-	player->update(keyState, delta);
+	player->Update(key_state, delta);
+
+	if ((player->GetX() > SIDE_BORDER && player->GetDirection() < 0) || 
+			(player->GetX() < WIDTH - SIDE_BORDER - player->GetWidth() && player->GetDirection() > 0)) {
+		player->Move(delta);
+	}
 }
 
-void SpaceInvaders::load_sprites()
+void SpaceInvaders::LoadSprites()
 {
 	SDL_Surface * image = IMG_Load("res\\sprites.png");
 	if (image == 0) {
@@ -37,6 +42,16 @@ void SpaceInvaders::load_sprites()
 	}
 	texture = SDL_CreateTextureFromSurface(renderer, image);
 	SDL_FreeSurface(image);
+}
+
+const int SpaceInvaders::GetWidth()
+{
+	return WIDTH;
+}
+
+const int SpaceInvaders::GetHeight()
+{
+	return HEIGHT;
 }
 
 

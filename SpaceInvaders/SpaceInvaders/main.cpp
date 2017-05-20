@@ -1,5 +1,3 @@
-// SpaceInvaders.cpp : Defines the entry point for the console application.
-//
 #include <main.h>
 #undef main
 
@@ -16,18 +14,7 @@ int main(int argc, char *argv[])
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
 
-	SDL_Init(SDL_INIT_VIDEO);
-	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-
-	window = SDL_CreateWindow("Game Window",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		WIDTH,
-		HEIGHT,
-		0
-	);
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	SDL_RenderSetLogicalSize(renderer, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+	InitSDL(&window, &renderer);
 
 	SpaceInvaders game(LOGICAL_WIDTH, LOGICAL_HEIGHT, renderer);
 
@@ -37,6 +24,7 @@ int main(int argc, char *argv[])
 	double frameMs = 1000 / (double)frameRate; //calculate the length of each frame 
 	double delta = 0;
 	int done = 0;
+
 
 	Uint32 currentTick = SDL_GetTicks();
 	Uint32 previousTick = currentTick;
@@ -50,11 +38,11 @@ int main(int argc, char *argv[])
 		delta += currentTick - previousTick;
 
 		if (delta > frameMs) {
-			game.update(delta / 1000.0);
-			game.render();
+			game.Update(delta / 1000.0);
 			ticks++;
 			delta = (delta - frameMs);
 		}
+		game.Render();
 
 		if (currentTick - frameTimer > 1000) {
 			std::cout << "frames:\t" << ticks << std::endl;
@@ -95,14 +83,23 @@ int process_events(SDL_Window *window)
 
 	}
 
-	//update();
-
 	return 0;
 }
 
-void init_SDL(SDL_Window *window, SDL_Renderer *renderer) 
+void InitSDL(SDL_Window **window, SDL_Renderer **renderer) 
 {
+	SDL_Init(SDL_INIT_VIDEO);
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
+	*window = SDL_CreateWindow("Game Window",
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+		WIDTH,
+		HEIGHT,
+		0
+	);
+	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_RenderSetLogicalSize(*renderer, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
 }
 

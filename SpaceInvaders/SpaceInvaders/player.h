@@ -5,12 +5,20 @@
 class Player : public Entity {
 
 public :
+
+	//Constructors
 	Player();
 	Player(double x, double y);
-	void update(const Uint8 *keyState, double delta);
+
+	//Methods
+	void Update(const Uint8 *keyState, double delta);
+	int GetDirection();
+	void Move(double delta);
+	void Move();
 
 private:
-	int xDir = 0;
-	double speed = 100;
-	void move(double delta);
+	//Fields
+	int x_dir;
+	double speed;
+	//Methods
 };

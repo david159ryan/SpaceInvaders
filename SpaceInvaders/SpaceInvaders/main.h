@@ -18,4 +18,4 @@ int LOGICAL_HEIGHT;
 int SCALE;
 
 int process_events(SDL_Window *window);
-void init_SDL(SDL_Window *window, SDL_Renderer *renderer);
+void InitSDL(SDL_Window **window, SDL_Renderer **renderer);
