@@ -17,5 +17,5 @@ int LOGICAL_WIDTH;
 int LOGICAL_HEIGHT;
 int SCALE;
 
-int process_events(SDL_Window *window);
+int ProcessEvents(SDL_Window *window);
 void InitSDL(SDL_Window **window, SDL_Renderer **renderer);

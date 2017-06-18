@@ -1,3 +1,7 @@
-﻿  main.cpp
+﻿  spaceInvaders.cpp
+  player.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  main.cpp
   SpaceInvaders.vcxproj -> C:\Users\Dave\Source\Repos\SpaceInvaders\SpaceInvaders\x64\Debug\SpaceInvaders.exe
   SpaceInvaders.vcxproj -> C:\Users\Dave\Source\Repos\SpaceInvaders\SpaceInvaders\x64\Debug\SpaceInvaders.pdb (Partial PDB)

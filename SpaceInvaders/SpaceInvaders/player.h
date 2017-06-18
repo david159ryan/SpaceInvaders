@@ -12,9 +12,9 @@ public :
 
 	//Methods
 	void Update(const Uint8 *keyState, double delta);
+	void Update();
 	int GetDirection();
-	void Move(double delta);
-	void Move();
+	void Move(double delta, int dir);
 
 private:
 	//Fields

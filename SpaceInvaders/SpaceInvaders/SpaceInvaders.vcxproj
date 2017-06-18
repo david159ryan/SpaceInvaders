@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="invader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="spaceInvaders.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="entity.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="invader.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="spaceInvaders.h" />

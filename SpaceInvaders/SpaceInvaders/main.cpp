@@ -5,11 +5,14 @@
 int main(int argc, char *argv[])
 {
 
-	WIDTH = 640;
-	HEIGHT = 480;
-	SCALE = 2;
-	LOGICAL_WIDTH = 320;
-	LOGICAL_HEIGHT = 240;
+	//TODO possibly move this somewhere else
+	SCALE = 3;
+	LOGICAL_WIDTH = 224;
+	LOGICAL_HEIGHT = 256;
+	WIDTH = LOGICAL_WIDTH * SCALE;
+	HEIGHT = LOGICAL_HEIGHT * SCALE;
+	//--------------------------------------
+
 
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
@@ -50,7 +53,7 @@ int main(int argc, char *argv[])
 			ticks = 0;
 		}
 		SDL_Delay(1);
-		done = process_events(window);
+		done = ProcessEvents(window);
 	}
 
 	SDL_DestroyWindow(window);
@@ -59,7 +62,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-int process_events(SDL_Window *window)
+int ProcessEvents(SDL_Window *window)
 {
 	SDL_Event event;
 	while (SDL_PollEvent(&event))

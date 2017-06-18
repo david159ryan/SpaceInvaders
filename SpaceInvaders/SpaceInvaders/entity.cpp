@@ -1,22 +1,24 @@
 #include "entity.h"
 
 
-Entity::Entity() : Entity(0, 0)
+Entity::Entity() : Entity(0, 0, 0)
 {
 	std::cout << "In Entity empty constructor:" << std::endl;
 
 }
 
-Entity::Entity(double x, double y)
+Entity::Entity(double x, double y, int type)
 {
 	this->x = x;
 	this->y = y;
-	std::cout << "In Entity constructor:\t" << x << "\t" << y << std::endl;
+	texture_rect = sprite_rects[type];
+	w = texture_rect.w;
+	h = texture_rect.h;
+	rect = { (int)x, (int)y, w , h };
 }
 
 void Entity::render(SDL_Texture *texture, SDL_Renderer *renderer)
 {
-	//std::cout << "In Entity render:" << std::endl;
 	SDL_RenderCopy(renderer, texture, &texture_rect, &rect);
 }
 
@@ -39,4 +41,3 @@ int Entity::GetHeight()
 {
 	return h;
 }
-
