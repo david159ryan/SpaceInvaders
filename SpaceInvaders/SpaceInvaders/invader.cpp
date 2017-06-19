@@ -34,4 +34,5 @@ void Invader::Move(double delta, Direction dir)
 void Invader::Update()
 {
 
+
 }
