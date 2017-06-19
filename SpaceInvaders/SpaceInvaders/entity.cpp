@@ -9,12 +9,9 @@ Entity::Entity() : Entity(0, 0, 0)
 
 Entity::Entity(double x, double y, int type)
 {
-	this->x = x;
-	this->y = y;
+
 	texture_rect = sprite_rects[type];
-	w = texture_rect.w;
-	h = texture_rect.h;
-	rect = { (int)x, (int)y, w , h };
+	rect = { (int)x, (int)y, texture_rect.w , texture_rect.h };
 }
 
 void Entity::render(SDL_Texture *texture, SDL_Renderer *renderer)
@@ -24,20 +21,20 @@ void Entity::render(SDL_Texture *texture, SDL_Renderer *renderer)
 
 double Entity::GetX()
 {
-	return x;
+	return rect.x;
 }
 
 double Entity::GetY()
 {
-	return y;
+	return rect.y;
 }
 
 int Entity::GetWidth()
 {
-	return w;
+	return rect.w;
 }
 
 int Entity::GetHeight()
 {
-	return h;
+	return rect.h;
 }

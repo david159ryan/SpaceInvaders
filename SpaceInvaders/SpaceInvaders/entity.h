@@ -27,6 +27,7 @@ const SDL_Rect sprite_rects[] = {
 class Entity {
 
 public:
+
 	Entity();
 	Entity(double x, double y, int type);
 	void render(SDL_Texture * image, SDL_Renderer *renderer);
@@ -36,13 +37,11 @@ public:
 	int GetHeight();
 
 protected:
-	double x, y;
-	int w, h;
 	SDL_Rect texture_rect;
 	SDL_Rect rect;
 
 	//Methods
-	virtual void Move(double delta, int dir) = 0;
+	virtual void Move(double delta, Direction dir) = 0;
 	virtual void Update() = 0;
 
 };

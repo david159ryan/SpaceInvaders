@@ -11,17 +11,16 @@ Player::Player() : Player(0, 0)
 Player::Player(double x, double y) : Entity(x, y, PLAYER)
 {
 	std::cout << "In player constructor:" << std::endl;
-	x_dir = 0;
+	x_dir = DOWN;
 	speed = 100;
 }
 
-void Player::Move(double delta, int dir)
+void Player::Move(double delta, Direction dir)
 {
 	double step = x_dir * speed * delta;
 
-	x += step;
-	rect = { (int)x, (int)y, w, h};
-	x_dir = 0;
+	rect.x += (int)step;
+	x_dir = DOWN;
 	//std::cout << "xdir * speed:\t" << (xDir * speed) << "\t:\t" << delta << std::endl;
 }
 
@@ -31,9 +30,9 @@ void Player::Update(const Uint8 *keyState, double delta)
 {
 	
 	if (keyState[SDL_SCANCODE_A])
-		x_dir = -1;
+		x_dir = LEFT;
 	if (keyState[SDL_SCANCODE_D])
-		x_dir = 1;
+		x_dir = RIGHT;
 
 	//std::cout << "delta:" <<  delta << std::endl;
 }
@@ -43,7 +42,7 @@ void Player::Update()
 	//Intentionally Blank
 }
 
-int Player::GetDirection()
+Direction Player::GetDirection()
 {
 	return x_dir;
 }

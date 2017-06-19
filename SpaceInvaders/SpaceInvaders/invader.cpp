@@ -25,9 +25,10 @@ Invader * Invader::Invader3(int x, int y)
 	return new Invader(x, y, ENEMY3);
 }
 
-void Invader::Move(double delta, int dir)
+void Invader::Move(double delta, Direction dir)
 {
 	rect.x += dir * INVADER_MOVE_X;
+	rect.y += (dir == DOWN) ? INVADER_MOVE_Y : 0;
 }
 
 void Invader::Update()

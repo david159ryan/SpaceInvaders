@@ -11,10 +11,20 @@ SpaceInvaders::SpaceInvaders(int WIDTH, int HEIGHT, SDL_Renderer *renderer)
 	this->HEIGHT = HEIGHT;
 	this->renderer = renderer;
 	b_move_invaders = true;
+	invader_speed = INVADER_MOVE_TIME;
+	next_move_time = INVADER_MOVE_TIME;
 	key_state = SDL_GetKeyboardState(NULL);
-	player = new Player(100, HEIGHT  - 20);
+	player = new Player(100, HEIGHT - 20);
+	stopwatch = Stopwatch();
+	InitGame();
+}
+
+void SpaceInvaders::InitGame()
+{
 	InitInvaders();
 	LoadSprites();
+	stopwatch.Reset();
+	stopwatch.Start();
 }
 
 /*
@@ -28,7 +38,7 @@ void SpaceInvaders::InitInvaders()
 	int x_gap =  invader_bounds / INVADER_COLS;
 	int x_off = (WIDTH - invader_bounds) / 2;
 	invaders.resize(INVADER_COLS);
-	invader_move_dir = 1;
+	invader_move_dir = Direction::RIGHT;
 
 	for (int i = 0; i < INVADER_ROWS; i++) {
 		int yy = INVADER_Y_OFFSET + (INVADER_Y_GAP * i);
@@ -75,18 +85,49 @@ void SpaceInvaders::Update(double delta)
 			(player->GetX() < WIDTH - PLAYER_SIDE_BORDER - player->GetWidth() && 
 				player->GetDirection() > 0)) 
 	{
-		player->Move(delta, 0);
+		player->Move(delta, Direction::DOWN); //DOWN will be ignored by player
 	}
 
-	//TODO implement some sort of stopwatch
-	if (b_move_invaders) {
-		//Iterate through invaders and move them
-		std::for_each(invaders.begin(), invaders.end(), [&](std::vector<Invader *> in) {
-			std::for_each(in.begin(), in.end(),
-				[&](Invader * i) { i->Move(delta, invader_move_dir); }
-			);
-		});
+
+	//Check if invaders
+	if (stopwatch.GetTime() >= invader_speed) {
+		MoveInvaders(delta);
+		stopwatch.Reset();
+		stopwatch.Start();
 	}
+}
+
+void SpaceInvaders::MoveInvaders(double delta)
+{
+	Direction next_dir = CheckInvaderBorders();
+
+	invader_move_dir = (next_dir == invader_move_dir) ? next_dir : Direction::DOWN;
+
+	std::for_each(invaders.begin(), invaders.end(), [&](std::vector<Invader *> in) {
+		std::for_each(in.begin(), in.end(),
+			[&](Invader * i) { i->Move(delta, invader_move_dir); }
+		);
+	});
+
+	invader_move_dir = next_dir;
+}
+ 
+Direction SpaceInvaders::CheckInvaderBorders()
+{
+	Direction d = invader_move_dir;
+	if (invader_move_dir == Direction::LEFT) {
+		Invader * inv = invaders.front().front();
+		if (inv->GetX() < INVADER_SIDE_BORDER) {
+			d = Direction::RIGHT;
+		}
+	}
+	else if (invader_move_dir == Direction::RIGHT) {
+		Invader * inv = invaders.back().back();
+		if (inv->GetX() + inv->GetWidth() > WIDTH - INVADER_SIDE_BORDER) {
+			d = Direction::LEFT;
+		}
+	}
+	return d;
 }
 
 void SpaceInvaders::LoadSprites()

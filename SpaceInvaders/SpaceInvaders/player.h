@@ -13,12 +13,12 @@ public :
 	//Methods
 	void Update(const Uint8 *keyState, double delta);
 	void Update();
-	int GetDirection();
-	void Move(double delta, int dir);
+	Direction GetDirection();
+	void Move(double delta, Direction dir);
 
 private:
 	//Fields
-	int x_dir;
+	Direction x_dir;
 	double speed;
 	//Methods
 };
