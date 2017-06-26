@@ -19,7 +19,6 @@ public:
 	const int INVADER_COLS			= 11;
 	const int INVADER_MOVE_TIME		= 900; //initial move time
 
-	SpaceInvaders();
 	SpaceInvaders(int WIDTH, int HEIGHT, SDL_Renderer *renderer);
 	void Render();
 	void Update(double delta);
@@ -42,8 +41,7 @@ private:
 	void LoadSprites();
 	void InitInvaders();
 	void MoveInvaders(double delta);
-	Direction CheckInvaderBorders();
-	Direction invader_move_dir;
+	Vector2 CheckInvaderBorders();
 	bool b_move_invaders;
 	Stopwatch stopwatch;
 };

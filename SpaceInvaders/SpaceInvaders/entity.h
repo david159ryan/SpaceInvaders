@@ -2,46 +2,57 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
 #include "global.h"
+#include "Animation.h"
 
-#define PLAYER		0
-#define ENEMY1		1
-#define ENEMY2		2
-#define ENEMY3		3
-
-#define S_X			0
-#define S_Y			1
-#define S_WIDTH		2
-#define S_HEIGHT	3
-#define S_FRAMES	4
-
-const SDL_Rect sprite_rects[] = {
-	{0,0,13,8},
-	{14,0,8,8},
-	{23,0,11,8},
-	{35,0,12,8},
-	{48,0,11,8}
+enum EntityType {
+	PLAYER = 0,
+	ENEMY1 = 1,
+	ENEMY2 = 2,
+	ENEMY3 = 3,
+	BULLETP = 4,
+	BULLET1 = 5,
+	BULLET2 = 6,
+	BULLET3 = 7,
 };
+
+static const SDL_Rect SPRITES[][2] = {
+	{{0,0,13,8},{0,8,13,8}},	//PLAYER1
+	{{14,0,8,8},{14,8,8,8}},	//ENEMY1
+	{{23,0,11,8},{23,8,11,8}},	//ENEMY2
+	{{35,0,12,8},{35,8,12,8}},	//ENEMY3
+	{{0,15,1,4},{0,15,1,4}},	//BULLETP
+	{{14,16,3,9},{14,25,3,9}},	//BULLET1
+	{{23,16,3,9},{23,25,3,9}},	//BULLET2
+	{{35,16,3,9},{35,25,3,9}}	//BULLET3
+};
+
 
 class Entity {
 
 public:
 
-	Entity();
-	Entity(double x, double y, int type);
-	void render(SDL_Texture * image, SDL_Renderer *renderer);
-	double GetX();
-	double GetY();
-	int GetWidth();
-	int GetHeight();
+	Entity(float x, float y, EntityType type, Animation * anim);
+	void Render(SDL_Texture * image, SDL_Renderer *renderer);
+	EntityType Type();
+	Vector2 GetDirection();
+	float GetX();
+	float GetY();
+	int Width();
+	int Height();
+	int RightBorder();
+	int LeftBorder();
+	int TopBorder();
+	int BottomBorder();
+	bool Intersects(const Entity * other, SDL_Rect * result);
 
 protected:
 	SDL_Rect texture_rect;
 	SDL_Rect rect;
-
+	EntityType type;
+	Vector2 direction;
+	Animation * anim;
+	const Uint8 *key_state;
 	//Methods
-	virtual void Move(double delta, Direction dir) = 0;
-	virtual void Update() = 0;
-
+	virtual void Update(double delta) = 0;
 };

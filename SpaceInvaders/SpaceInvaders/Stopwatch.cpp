@@ -6,10 +6,15 @@ Stopwatch::Stopwatch()
 	b_running = false;
 }
 
+Stopwatch::Stopwatch(uint64_t time) : Stopwatch()
+{
+	Set(time);
+}
+
 void Stopwatch::Start()
 {
 	using namespace std::chrono;
-	start_time = GetCurrentTime();
+	start_time = (start_time == milliseconds::zero()) ? GetCurrentTime() : start_time;
 	b_running = true;
 }
 
@@ -35,9 +40,16 @@ void Stopwatch::Resume()
 		return;
 	}
 	uint64_t time = GetCurrentTime().count() - GetTime();
+	Set(time);
+	b_running = true;
+}
+
+//TODO doesn't appear to be working as expected. FIX DAVE!!!
+void Stopwatch::Set(uint64_t time)
+{
+	using namespace std::chrono;
 	milliseconds ms = milliseconds(time);
 	start_time = duration_cast<milliseconds>(ms);
-	b_running = true;
 }
 
 bool Stopwatch::IsRunning()

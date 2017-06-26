@@ -1,48 +1,57 @@
 #pragma once
 #include <player.h>
-#include <global.h>
-#include <SpaceInvaders.h>
 
-Player::Player() : Player(0, 0)
-{
-	//intentionally blank
-}
-
-Player::Player(double x, double y) : Entity(x, y, PLAYER)
+Player::Player(float x, float y, const Uint8 *key_state) : 
+	Entity(x, y, PLAYER, new Animation(SPRITES[PLAYER], 1, 0L, false))
 {
 	std::cout << "In player constructor:" << std::endl;
-	x_dir = DOWN;
+	direction = STILL;
 	speed = 100;
+	b_can_fire = true;
+	bullet = nullptr;
+	this->key_state = key_state;
 }
 
-void Player::Move(double delta, Direction dir)
+void Player::Move(double delta)
 {
-	double step = x_dir * speed * delta;
+	double step = direction.x * speed * delta;
 
 	rect.x += (int)step;
-	x_dir = DOWN;
-	//std::cout << "xdir * speed:\t" << (xDir * speed) << "\t:\t" << delta << std::endl;
+	direction = STILL;
+	//std::cout << "xdir * speed:\t" << (direction.x * speed) << "\t:\t" << delta << std::endl;
 }
 
-
-
-void Player::Update(const Uint8 *keyState, double delta)
+void Player::RenderBullets(SDL_Texture * texture, SDL_Renderer * renderer)
 {
+	if (bullet != nullptr) {
+		bullet->Render(texture, renderer);
+	}
+}
+
+void Player::Update(double delta)
+{
+
+	if (key_state[SDL_SCANCODE_A])
+		direction = LEFT;
+	if (key_state[SDL_SCANCODE_D])
+		direction = RIGHT;
 	
-	if (keyState[SDL_SCANCODE_A])
-		x_dir = LEFT;
-	if (keyState[SDL_SCANCODE_D])
-		x_dir = RIGHT;
+	if (key_state[SDL_SCANCODE_SPACE]) {
+		Fire();
+	}
+	if (bullet != nullptr) {
+		bullet->Update(delta);
+		if (bullet->GetY() < 0) {
+			bullet = nullptr;
+		}
+	}
 
 	//std::cout << "delta:" <<  delta << std::endl;
 }
 
-void Player::Update()
+void Player::Fire()
 {
-	//Intentionally Blank
-}
-
-Direction Player::GetDirection()
-{
-	return x_dir;
+	if (bullet == nullptr) {
+		bullet = new Bullet(this, BULLET1);
+	}
 }

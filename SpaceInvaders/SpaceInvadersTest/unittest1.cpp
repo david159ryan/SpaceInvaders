@@ -73,5 +73,6 @@ namespace SpaceInvadersTest
 			const wchar_t *message = L"Stopped at: " + stopwatch.GetTime();
 			Assert::AreEqual(true, b_in_range, message, LINE_INFO());
 		}
+
 	};
 }

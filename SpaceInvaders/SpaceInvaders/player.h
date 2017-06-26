@@ -1,24 +1,24 @@
 #pragma once
 
 #include <entity.h>
+#include <bullet.h>
 
 class Player : public Entity {
 
 public :
 
-	//Constructors
-	Player();
-	Player(double x, double y);
+	//Constructor
+	Player(float x, float y, const Uint8 *key_state);
 
 	//Methods
-	void Update(const Uint8 *keyState, double delta);
-	void Update();
-	Direction GetDirection();
-	void Move(double delta, Direction dir);
+	void Update(double delta);
+	void RenderBullets(SDL_Texture* texture, SDL_Renderer* renderer);
+	Bullet* bullet;
 
 private:
 	//Fields
-	Direction x_dir;
 	double speed;
-	//Methods
+	bool b_can_fire;
+	void Fire();
+	void Move(double delta);
 };

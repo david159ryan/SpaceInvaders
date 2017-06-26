@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <global.h>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>

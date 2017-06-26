@@ -40,17 +40,18 @@ int main(int argc, char *argv[])
 
 		delta += currentTick - previousTick;
 
-		if (delta > frameMs) {
+		while (delta > frameMs) {
 			game.Update(delta / 1000.0);
 			ticks++;
-			delta = (delta - frameMs);
+			delta -= frameMs;
+			game.Render();
 		}
-		game.Render();
 
 		if (currentTick - frameTimer > 1000) {
-			std::cout << "frames:\t" << ticks << std::endl;
+			//std::cout << "frames:\t" << ticks << std::endl;
 			frameTimer = currentTick;
 			ticks = 0;
+			delta = 0;
 		}
 		SDL_Delay(1);
 		done = ProcessEvents(window);
@@ -101,7 +102,7 @@ void InitSDL(SDL_Window **window, SDL_Renderer **renderer)
 		HEIGHT,
 		0
 	);
-	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED);
+	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 	SDL_RenderSetLogicalSize(*renderer, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
 }

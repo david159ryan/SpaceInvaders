@@ -4,10 +4,12 @@
 class Stopwatch {
 public:
 	Stopwatch();
+	Stopwatch(uint64_t start_time);
 	void Start();
 	void Stop();
 	void Reset();
 	void Resume();
+	void Set(uint64_t start_time);
 	bool IsRunning();
 	uint64_t GetTime();
 
