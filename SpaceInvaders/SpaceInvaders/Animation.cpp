@@ -1,10 +1,17 @@
 #include "Animation.h"
 
-
-Animation::Animation(const SDL_Rect * frame_rects, int num_frames, uint64_t frame_time, bool loop)
+Animation::Animation()
 {
-	this->frame_rects.assign(frame_rects, frame_rects + num_frames);
-	frame_iterator = this->frame_rects.begin();
+
+}
+
+Animation::Animation(const SDL_Rect * frames, int num_frames, uint64_t frame_time, bool loop)
+{
+	for (int i = 0; i < num_frames; i++)
+	{
+		this->frame_rects.push_back(&frames[i]);
+	}
+	current_frame = 0;
 	this->frame_time = frame_time;
 	this->num_frames = num_frames;
 	timer = Stopwatch();
@@ -19,13 +26,12 @@ void Animation::Play()
 	if (b_playing) {
 		return;
 	}
-
 	b_playing = true;
 	timer.Start();
 }
 
 void Animation::Reset() {
-	frame_iterator = frame_rects.begin();
+	current_frame = 0;
 	elapsed_time = 0;
 }
 
@@ -55,32 +61,36 @@ void Animation::Update() {
 
 	//	allows animation to catch up in case of fps drops
 	uint64_t current_time = timer.GetTime();
+	
+	//std::cout << "current time: " << current_time << std::endl << "frame time: " << frame_time << std::endl;
 
-	//std::cout << "current frame time: " << frame_time << std::endl;
+	//TODO this logic is broken... just using for debugging
+	int skipped_frames = -1;
 
 	//TODO change this to while and fix timer.Set(time)
-	if (current_time > frame_time) {
+	while (current_time > frame_time) {
 		NextFrame();
-		std::cout << "skipping anim frames" << std::endl;
+		skipped_frames++;
 		current_time -= frame_time;
 		timer.Reset();
 		timer.Start();
+	}
+	if (skipped_frames > 0) {
+		std::cout << "skipped anim frames: " << skipped_frames << std::endl;
 	}
 }
 
 // Moves iterator to next frame. Wraps to beginning when it
 // reaches the end.
 void Animation::NextFrame() {
-	//	iterator.end() represents theoretical index after last element.
-	//	Therefore we can safely increment iterator and check for end afterwards
-	//	without risking skipping the last element.
-	frame_iterator++;
+
+	current_frame++;
 
 	// return to start frame if animation is looping.
 	// stop animation otherwise
-	if (frame_iterator == frame_rects.end()) {
+	if (current_frame == num_frames) {
 		if (b_loop) {
-			frame_iterator = frame_rects.begin();
+			Reset();
 		}
 		else {
 			Stop();
@@ -89,10 +99,11 @@ void Animation::NextFrame() {
 }
 
 
-SDL_Rect Animation::CurrentFrame() {
-	return *frame_iterator;
+const SDL_Rect * Animation::CurrentFrame() {
+	return frame_rects[current_frame];
 }
 
-
-
-
+Animation::~Animation()
+{
+	
+}

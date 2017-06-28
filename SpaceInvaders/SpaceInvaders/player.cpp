@@ -2,7 +2,7 @@
 #include <player.h>
 
 Player::Player(float x, float y, const Uint8 *key_state) : 
-	Entity(x, y, PLAYER, new Animation(SPRITES[PLAYER], 1, 0L, false))
+	Entity(x, y, PLAYER)
 {
 	std::cout << "In player constructor:" << std::endl;
 	direction = STILL;
@@ -36,12 +36,15 @@ void Player::Update(double delta)
 	if (key_state[SDL_SCANCODE_D])
 		direction = RIGHT;
 	
+	Move(delta);
+
 	if (key_state[SDL_SCANCODE_SPACE]) {
 		Fire();
 	}
 	if (bullet != nullptr) {
 		bullet->Update(delta);
 		if (bullet->GetY() < 0) {
+			delete bullet;
 			bullet = nullptr;
 		}
 	}
@@ -54,4 +57,9 @@ void Player::Fire()
 	if (bullet == nullptr) {
 		bullet = new Bullet(this, BULLET1);
 	}
+}
+
+Player::~Player()
+{
+	delete bullet;
 }

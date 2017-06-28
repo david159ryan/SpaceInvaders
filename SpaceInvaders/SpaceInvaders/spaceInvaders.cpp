@@ -86,16 +86,14 @@ void SpaceInvaders::LoadSprites()
 
 void SpaceInvaders::Update(double delta)
 {
+
 	player->Update(delta);
-
-	// Check player bounds and move
-	if ((player->GetX() > PLAYER_SIDE_BORDER && player->GetDirection() == LEFT) || 
-			(player->GetX() < WIDTH - PLAYER_SIDE_BORDER - player->Width() && 
-				player->GetDirection() == RIGHT)) 
-	{
-		player->Update(delta);
-	}
-
+	 
+	// Fix player bounds
+	player->Clamp(	PLAYER_SIDE_BORDER,								//left
+					WIDTH - PLAYER_SIDE_BORDER - player->Width(),	//right
+					player->GetY(),									//top (no change)
+					player->GetY());								//bottom (no change)
 
 	//Check if invaders should move
 	if (stopwatch.GetTime() >= invader_speed) {
@@ -107,34 +105,34 @@ void SpaceInvaders::Update(double delta)
 
 void SpaceInvaders::MoveInvaders(double delta)
 {
-	Vector2 next_dir = CheckInvaderBorders();
-	Invader::ChangeDirection((next_dir == Invader::GetAllDirection()) ? next_dir : DOWN);
-
-	std::for_each(invaders.begin(), invaders.end(), [&](std::vector<Invader *> in) {
-		std::for_each(in.begin(), in.end(),
-			[&](Invader * i) { i->Update(delta); }
-		);
-	});
-
-	Invader::ChangeDirection(next_dir);
+	Invader::ChangeDirection(CheckInvaderBorders());
+	UpdateInvaders(delta);
+	//Invader::ChangeDirection(next_dir);
 }
  
+void SpaceInvaders::UpdateInvaders(double delta)
+{
+	std::for_each(invaders.begin(), invaders.end(), [&](std::vector<Invader *> in) {
+		std::for_each(in.begin(), in.end(), [&](Invader * i) { 
+			i->Update(delta); 
+		});
+	});
+}
 
 //TODO sort out vector2 stuff, overload operators
 Vector2 SpaceInvaders::CheckInvaderBorders()
 {
 	Vector2 d = Invader::GetAllDirection();
-	if (d == LEFT) {
-		Invader * inv = invaders.front().front();
-		if (inv->LeftBorder() < INVADER_SIDE_BORDER) {
-			d = RIGHT;
-		}
-	}
-	else if (d == RIGHT) {
-		Invader * inv = invaders.back().back();
-		if (inv->RightBorder() > WIDTH - INVADER_SIDE_BORDER) {
-			d = LEFT;
-		}
+	Invader * inv_l = invaders.front().front();
+	Invader * inv_r = invaders.back().back();
+
+	bool b_left_border = (inv_l->LeftBorder() < INVADER_SIDE_BORDER);
+	bool b_right_border = (inv_r->RightBorder() > WIDTH - INVADER_SIDE_BORDER);
+
+	if (d == DOWN) {
+		d = b_left_border ? RIGHT : LEFT;
+	}else if (b_left_border || b_right_border) {
+		d = DOWN;
 	}
 	return d;
 }

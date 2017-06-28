@@ -3,7 +3,7 @@
 Vector2 Invader::all_direction = RIGHT;
 
 Invader::Invader(int x, int y, EntityType type) 
-	: Entity((float)x, (float)y, type, new Animation(SPRITES[type], 2, 0L, true))
+	: Entity((float)x, (float)y, type)
 {
 	
 }
@@ -37,5 +37,5 @@ void Invader::Update(double delta)
 {
 	rect.x += (int)(all_direction.x * INVADER_MOVE_X);
 	rect.y += (int)(all_direction.y * INVADER_MOVE_X);
-	anim->Update();
+	anim.Update();
 }

@@ -1,18 +1,18 @@
 #include "entity.h"
 
-Entity::Entity(float x, float y, EntityType type, Animation * anim)
+Entity::Entity(float x, float y, EntityType type)
 {
-	texture_rect = anim->CurrentFrame();
+	this->anim = Animation(ANIMATIONS[type]);
+	texture_rect = *(this->anim.CurrentFrame());
 	rect = { (int)x, (int)y, texture_rect.w , texture_rect.h };
-	this->anim = anim;
 	this->type = type;
 	direction = STILL;
-	anim->Play();
+	//anim.Play();
 }
 
 void Entity::Render(SDL_Texture *texture, SDL_Renderer *renderer)
 {
-	texture_rect = anim->CurrentFrame();
+	texture_rect = *(anim.CurrentFrame());
 	if (renderer == nullptr || texture == nullptr) {
 		std::cout << "renderer: " << renderer << std::endl << "texture: " << texture << std::endl;
 		return;
@@ -28,6 +28,30 @@ float Entity::GetX()
 float Entity::GetY()
 {
 	return rect.y;
+}
+
+void Entity::SetX(int x)
+{
+	rect.x = x;
+}
+
+void Entity::SetY(int y)
+{
+	rect.y = y;
+}
+
+void Entity::Clamp(int left, int right, int top, int bottom)
+{
+	rect.x = (rect.x < left)	? left		: rect.x;
+	rect.x = (rect.x > right)	? right		: rect.x;
+	rect.y = (rect.y > top)		? top		: rect.y;
+	rect.y = (rect.y < bottom)	? bottom	: rect.y;
+}
+
+void Entity::SetPosition(int x, int y)
+{
+	SetX(x);
+	SetY(y);
 }
 
 int Entity::Width()
@@ -65,6 +89,11 @@ bool Entity::Intersects(const Entity * other, SDL_Rect * result)
 	return SDL_IntersectRect(&rect, &other->rect, NULL);
 }
 
+void Entity::Kill()
+{
+
+}
+
 EntityType Entity::Type()
 {
 	return type;
@@ -73,4 +102,9 @@ EntityType Entity::Type()
 Vector2 Entity::GetDirection()
 {
 	return direction;
+}
+
+Entity::~Entity()
+{
+	//delete anim;
 }

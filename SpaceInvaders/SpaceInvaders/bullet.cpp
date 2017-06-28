@@ -1,14 +1,15 @@
 #include "bullet.h"
 
 Bullet::Bullet(Entity* source, EntityType type) 
-	: Entity(source->GetX(), source->GetY(), type, new Animation(SPRITES[type], 2, 500, true))
+	: Entity(source->GetX(), source->GetY(), type)
 {
 	this->source = source;
 	direction = (source->Type() == PLAYER) ? UP : DOWN;
+	anim.Play();
 }
 
 void Bullet::Update(double delta)
 {
-	anim->Update();
+	anim.Update();
 	rect.y += (int)(speed * direction.y * delta);
 }

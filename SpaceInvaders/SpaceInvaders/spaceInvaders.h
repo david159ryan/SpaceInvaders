@@ -41,6 +41,7 @@ private:
 	void LoadSprites();
 	void InitInvaders();
 	void MoveInvaders(double delta);
+	void UpdateInvaders(double delta);
 	Vector2 CheckInvaderBorders();
 	bool b_move_invaders;
 	Stopwatch stopwatch;

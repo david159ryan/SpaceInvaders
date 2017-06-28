@@ -8,21 +8,22 @@
 class Animation
 {
 public:
+
 	Animation();
 	Animation(const SDL_Rect * frames_rects, int num_frames, uint64_t frame_time, bool loop);
-	//~Animation();
+	~Animation();
 	void Play();
 	void Stop();
 	void Reset();
 	void Update();
-	SDL_Rect CurrentFrame();
+	const SDL_Rect * CurrentFrame();
 
 
 private:
 	int num_frames;
 	uint64_t frame_time;
-	std::vector<SDL_Rect> frame_rects;
-	std::vector<SDL_Rect>::iterator frame_iterator;
+	std::vector<const SDL_Rect *> frame_rects;
+	unsigned int current_frame;
 	void NextFrame();
 	bool b_playing;
 	bool b_loop;
