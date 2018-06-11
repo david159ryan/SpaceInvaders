@@ -20,10 +20,10 @@ public:
 
 
 private:
-	int num_frames;
+	uint num_frames;
 	uint64_t frame_time;
 	std::vector<const SDL_Rect *> frame_rects;
-	unsigned int current_frame;
+	uint current_frame;
 	void NextFrame();
 	bool b_playing;
 	bool b_loop;

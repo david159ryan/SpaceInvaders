@@ -1,7 +1,7 @@
 #pragma once
 
-#include <entity.h>
-#include <bullet.h>
+#include "entity.h"
+#include "bullet.h"
 
 class Player : public Entity {
 
@@ -13,13 +13,14 @@ public :
 	//Methods
 	void Update(double delta);
 	void RenderBullets(SDL_Texture* texture, SDL_Renderer* renderer);
-	Bullet* bullet;
 
 private:
 	//Fields
-	double speed;
-	const Uint8 *key_state;
-	bool b_can_fire;
+	double m_speed;
+	const Uint8 *m_keyState;
+	Bullet* m_bullet;
+	bool m_canFire;
+
 	void Fire();
 	void Move(double delta);
 };

@@ -3,39 +3,39 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "global.h"
-#include "Animation.h"
+#include "animation.h"
 
 class Entity {
 
 public:
 
-	Entity(float x, float y, EntityType type);
-	~Entity();
+	Entity(int x, int y, EntityType type);
+	virtual ~Entity();
 	void Render(SDL_Texture * image, SDL_Renderer *renderer);
 	EntityType Type();
 	Vector2 GetDirection();
-	float GetX();
-	float GetY();
+	int GetX();
+	int GetY();
 	void SetX(int x);
 	void SetY(int y);
 	void Clamp(int left, int right, int top, int bottom);
 	void SetPosition(int x, int y);
-	int Width();
-	int Height();
-	int RightBorder();
-	int LeftBorder();
-	int TopBorder();
-	int BottomBorder();
+	uint Width();
+	uint Height();
+	uint RightBorder();
+	uint LeftBorder();
+	uint TopBorder();
+	uint BottomBorder();
 	bool Intersects(const Entity * other, SDL_Rect * result);
 	void Kill();
 
 protected:
-	SDL_Rect texture_rect;
-	SDL_Rect rect;
-	EntityType type;
-	Vector2 direction;
-	Animation anim;
-	bool b_death_anim;
+	Vector2 m_direction;
+	EntityType m_type;
+	Animation m_anim;
+	SDL_Rect m_textureRect;
+	SDL_Rect m_rect;
+	bool m_isDeathAnim;
 	//Methods
 	virtual void Update(double delta) = 0;
 };

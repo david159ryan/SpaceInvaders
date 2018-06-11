@@ -1,4 +1,4 @@
-#include "SpaceInvaders.h"
+#include "spaceInvaders.h"
 
 SpaceInvaders::SpaceInvaders(int WIDTH, int HEIGHT, SDL_Renderer *renderer)
 {
@@ -37,9 +37,9 @@ void SpaceInvaders::InitInvaders()
 
 	invaders.resize(INVADER_COLS);
 
-	for (int i = 0; i < INVADER_ROWS; i++) {
+	for (uint i = 0; i < INVADER_ROWS; i++) {
 		int yy = INVADER_Y_OFFSET + (INVADER_Y_GAP * i);
-		for (int j = 0; j < INVADER_COLS; j++) {
+		for (uint j = 0; j < INVADER_COLS; j++) {
 			int xx = x_off + INVADER_SIDE_BORDER + x_gap * j;
 			switch (i) {
 			case 0:
@@ -76,7 +76,7 @@ void SpaceInvaders::Render()
 
 void SpaceInvaders::LoadSprites()
 {
-	SDL_Surface * image = IMG_Load("res\\sprites.png");
+	SDL_Surface * image = IMG_Load("res/sprites.png");
 	if (image == 0) {
 		std::cout << "Image failed to load" << std::endl;
 	}
@@ -88,7 +88,7 @@ void SpaceInvaders::Update(double delta)
 {
 
 	player->Update(delta);
-	 
+
 	// Fix player bounds
 	player->Clamp(	PLAYER_SIDE_BORDER,								//left
 					WIDTH - PLAYER_SIDE_BORDER - player->Width(),	//right
@@ -109,12 +109,12 @@ void SpaceInvaders::MoveInvaders(double delta)
 	UpdateInvaders(delta);
 	//Invader::ChangeDirection(next_dir);
 }
- 
+
 void SpaceInvaders::UpdateInvaders(double delta)
 {
 	std::for_each(invaders.begin(), invaders.end(), [&](std::vector<Invader *> in) {
-		std::for_each(in.begin(), in.end(), [&](Invader * i) { 
-			i->Update(delta); 
+		std::for_each(in.begin(), in.end(), [&](Invader * i) {
+			i->Update(delta);
 		});
 	});
 }
@@ -147,6 +147,3 @@ const int SpaceInvaders::GetHeight()
 {
 	return HEIGHT;
 }
-
-
-

@@ -1,65 +1,72 @@
-#pragma once
-#include <player.h>
+#include "player.h"
 
-Player::Player(float x, float y, const Uint8 *key_state) : 
-	Entity(x, y, PLAYER)
+Player::Player(float x, float y, const Uint8 *key_state) :
+	Entity(x, y, PLAYER),
+	m_speed(100),
+	m_keyState(key_state),
+	m_bullet(nullptr),
+	m_canFire(true)
 {
-	std::cout << "In player constructor:" << std::endl;
-	direction = STILL;
-	speed = 100;
-	b_can_fire = true;
-	bullet = nullptr;
-	this->key_state = key_state;
+
 }
 
 void Player::Move(double delta)
 {
-	double step = direction.x * speed * delta;
+	double step = m_direction.x * m_speed * delta;
 
-	rect.x += (int)step;
-	direction = STILL;
-	//std::cout << "xdir * speed:\t" << (direction.x * speed) << "\t:\t" << delta << std::endl;
+	m_rect.x += static_cast<int>(step);
+	m_direction = STILL;
+	//std::cout << "xdir * speed:\t" << (m_direction.x * m_speed) << "\t:\t" << delta << std::endl;
 }
 
 void Player::RenderBullets(SDL_Texture * texture, SDL_Renderer * renderer)
 {
-	if (bullet != nullptr) {
-		bullet->Render(texture, renderer);
+	if (m_bullet != nullptr) {
+		m_bullet->Render(texture, renderer);
 	}
 }
 
 void Player::Update(double delta)
 {
 
-	if (key_state[SDL_SCANCODE_A])
-		direction = LEFT;
-	if (key_state[SDL_SCANCODE_D])
-		direction = RIGHT;
-	
+	if (m_keyState[SDL_SCANCODE_A])
+	{
+		m_direction = LEFT;
+	}
+	if (m_keyState[SDL_SCANCODE_D])
+	{
+		m_direction = RIGHT;
+	}
+
 	Move(delta);
 
-	if (key_state[SDL_SCANCODE_SPACE]) {
+	if (m_keyState[SDL_SCANCODE_SPACE]) 
+	{
 		Fire();
 	}
-	if (bullet != nullptr) {
-		bullet->Update(delta);
-		if (bullet->GetY() < 0) {
-			delete bullet;
-			bullet = nullptr;
+
+	if (m_bullet != nullptr) 
+	{
+		m_bullet->Update(delta);
+		if (m_bullet->GetY() < 0) 
+		{
+			delete m_bullet;
+			m_bullet = nullptr;
 		}
 	}
-
-	//std::cout << "delta:" <<  delta << std::endl;
 }
 
 void Player::Fire()
 {
-	if (bullet == nullptr) {
-		bullet = new Bullet(this, BULLET1);
+	if (m_bullet == nullptr) {
+		m_bullet = new Bullet(this, BULLET1);
 	}
 }
 
 Player::~Player()
 {
-	delete bullet;
+	if (m_bullet)
+	{
+		delete m_bullet;
+	}
 }

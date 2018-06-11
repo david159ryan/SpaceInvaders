@@ -9,6 +9,6 @@ public:
 	void Update(double delta);
 private:
 
-	Entity* source;
-	static const int speed = 150;
+	Entity* m_source;
+	static const int SPEED = 150;
 };

@@ -1,51 +1,52 @@
 #include "entity.h"
 
-Entity::Entity(float x, float y, EntityType type)
+Entity::Entity(int x, int y, EntityType type) :
+	m_direction(STILL),
+	m_type(type),
+	m_anim(Animation(ANIMATIONS[m_type])),
+	m_textureRect(*(m_anim.CurrentFrame())),
+	m_rect({ x, y, m_textureRect.w , m_textureRect.h }),
+	m_isDeathAnim(false)
 {
-	this->anim = Animation(ANIMATIONS[type]);
-	texture_rect = *(this->anim.CurrentFrame());
-	rect = { (int)x, (int)y, texture_rect.w , texture_rect.h };
-	this->type = type;
-	direction = STILL;
-	//anim.Play();
+
 }
 
 void Entity::Render(SDL_Texture *texture, SDL_Renderer *renderer)
 {
-	texture_rect = *(anim.CurrentFrame());
+	m_textureRect = *(m_anim.CurrentFrame());
 	if (renderer == nullptr || texture == nullptr) {
 		std::cout << "renderer: " << renderer << std::endl << "texture: " << texture << std::endl;
 		return;
 	}
-	SDL_RenderCopy(renderer, texture, &texture_rect, &rect);
+	SDL_RenderCopy(renderer, texture, &m_textureRect, &m_rect);
 }
 
-float Entity::GetX()
+int Entity::GetX()
 {
-	return rect.x;
+	return m_rect.x;
 }
 
-float Entity::GetY()
+int Entity::GetY()
 {
-	return rect.y;
+	return m_rect.y;
 }
 
 void Entity::SetX(int x)
 {
-	rect.x = x;
+	m_rect.x = x;
 }
 
 void Entity::SetY(int y)
 {
-	rect.y = y;
+	m_rect.y = y;
 }
 
 void Entity::Clamp(int left, int right, int top, int bottom)
 {
-	rect.x = (rect.x < left)	? left		: rect.x;
-	rect.x = (rect.x > right)	? right		: rect.x;
-	rect.y = (rect.y > top)		? top		: rect.y;
-	rect.y = (rect.y < bottom)	? bottom	: rect.y;
+	m_rect.x = (m_rect.x < left)	? left		: m_rect.x;
+	m_rect.x = (m_rect.x > right)	? right		: m_rect.x;
+	m_rect.y = (m_rect.y > top)		? top		: m_rect.y;
+	m_rect.y = (m_rect.y < bottom)	? bottom	: m_rect.y;
 }
 
 void Entity::SetPosition(int x, int y)
@@ -54,39 +55,39 @@ void Entity::SetPosition(int x, int y)
 	SetY(y);
 }
 
-int Entity::Width()
+uint Entity::Width()
 {
-	return rect.w;
+	return m_rect.w;
 }
 
-int Entity::Height()
+uint Entity::Height()
 {
-	return rect.h;
+	return m_rect.h;
 }
 
-int Entity::RightBorder()
+uint Entity::RightBorder()
 {
-	return rect.x + rect.w;
+	return m_rect.x + m_rect.w;
 }
 
-int Entity::LeftBorder()
+uint Entity::LeftBorder()
 {
-	return rect.x;
+	return m_rect.x;
 }
 
-int Entity::TopBorder()
+uint Entity::TopBorder()
 {
-	return rect.y;
+	return m_rect.y;
 }
 
-int Entity::BottomBorder()
+uint Entity::BottomBorder()
 {
-	return rect.y + rect.h;
+	return m_rect.y + m_rect.h;
 }
 
 bool Entity::Intersects(const Entity * other, SDL_Rect * result)
 {
-	return SDL_IntersectRect(&rect, &other->rect, NULL);
+	return SDL_IntersectRect(&m_rect, &other->m_rect, result);
 }
 
 void Entity::Kill()
@@ -96,15 +97,15 @@ void Entity::Kill()
 
 EntityType Entity::Type()
 {
-	return type;
+	return m_type;
 }
 
 Vector2 Entity::GetDirection()
 {
-	return direction;
+	return m_direction;
 }
 
 Entity::~Entity()
 {
-	//delete anim;
+
 }

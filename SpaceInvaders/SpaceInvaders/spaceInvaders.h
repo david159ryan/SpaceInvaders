@@ -1,23 +1,23 @@
 #pragma once
-#include <entity.h>
-#include <invader.h>
-#include <player.h>
 #include <algorithm>
 #include <vector>
-#include <stopwatch.h>
 
+#include "entity.h"
+#include "invader.h"
+#include "player.h"
+#include "stopwatch.h"
 
 class SpaceInvaders {
 public:
 
-	const int PLAYER_SIDE_BORDER	= 10;
-	const int PLAYER_Y_OFFSET		= 20;
-	const int INVADER_SIDE_BORDER	= 5;
-	const int INVADER_Y_OFFSET		= 30;
-	const int INVADER_Y_GAP			= 15;
-	const int INVADER_ROWS			= 5;
-	const int INVADER_COLS			= 11;
-	const int INVADER_MOVE_TIME		= 900; //initial move time
+	const uint PLAYER_SIDE_BORDER	= 10;
+	const uint PLAYER_Y_OFFSET		= 20;
+	const uint INVADER_SIDE_BORDER	= 5;
+	const uint INVADER_Y_OFFSET		= 30;
+	const uint INVADER_Y_GAP		= 15;
+	const uint INVADER_ROWS			= 5;
+	const uint INVADER_COLS			= 11;
+	const uint INVADER_MOVE_TIME	= 900; //initial move time
 
 	SpaceInvaders(int WIDTH, int HEIGHT, SDL_Renderer *renderer);
 	void Render();
@@ -27,11 +27,11 @@ public:
 	const int GetHeight();
 
 
-private:	
-	int WIDTH;
-	int HEIGHT;
-	int next_move_time;
-	int invader_speed;
+private:
+	uint WIDTH;
+	uint HEIGHT;
+	uint next_move_time;
+	uint invader_speed;
 	const Uint8 *key_state;
 	SDL_Renderer *renderer;
 	//std::vector<Entity> enemies;

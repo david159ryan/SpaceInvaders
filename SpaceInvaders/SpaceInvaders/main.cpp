@@ -1,10 +1,30 @@
-#include <main.h>
-#undef main
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include <fstream>
+
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+
+#include "spaceInvaders.h"
+#include "common.h"
+
+int WIDTH;
+int HEIGHT;
+int LOGICAL_WIDTH;
+int LOGICAL_HEIGHT;
+int SCALE;
+
+int ProcessEvents(SDL_Window *window);
+void InitSDL(SDL_Window **window, SDL_Renderer **renderer);
 
 
 int main(int argc, char *argv[])
 {
-
+	UNUSED(argc);
+	UNUSED(argv);
 	//TODO possibly move this somewhere else
 	SCALE = 3;
 	LOGICAL_WIDTH = 224;
@@ -21,13 +41,11 @@ int main(int argc, char *argv[])
 
 	SpaceInvaders game(LOGICAL_WIDTH, LOGICAL_HEIGHT, renderer);
 
-
-	//int bRunning = 1; 
-	int frameRate = 60; 
-	double frameMs = 1000 / (double)frameRate; //calculate the length of each frame 
+	//int bRunning = 1;
+	uint frameRate = 60;
+	double frameMs = 1000 / static_cast<double>(frameRate); //calculate the length of each frame
 	double delta = 0;
 	int done = 0;
-
 
 	Uint32 currentTick = SDL_GetTicks();
 	Uint32 previousTick = currentTick;
@@ -90,7 +108,7 @@ int ProcessEvents(SDL_Window *window)
 	return 0;
 }
 
-void InitSDL(SDL_Window **window, SDL_Renderer **renderer) 
+void InitSDL(SDL_Window **window, SDL_Renderer **renderer)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
@@ -104,6 +122,4 @@ void InitSDL(SDL_Window **window, SDL_Renderer **renderer)
 	);
 	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 	SDL_RenderSetLogicalSize(*renderer, LOGICAL_WIDTH, LOGICAL_HEIGHT);
-
 }
-

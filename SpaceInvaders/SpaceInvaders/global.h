@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL.h>
-#include "Animation.h"
+#include "animation.h"
 extern int SCALE, WIDTH, HEIGHT;
 
 struct Vector2 {

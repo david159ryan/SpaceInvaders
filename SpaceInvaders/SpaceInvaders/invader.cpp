@@ -1,21 +1,22 @@
-#include <invader.h>
+#include "common.h"
+#include "invader.h"
 
-Vector2 Invader::all_direction = RIGHT;
+Vector2 Invader::s_allDirection = RIGHT;
 
-Invader::Invader(int x, int y, EntityType type) 
-	: Entity((float)x, (float)y, type)
+Invader::Invader(int x, int y, EntityType type)
+	: Entity(x, y, type)
 {
-	
+
 }
 
 void Invader::ChangeDirection(const Vector2 dir)
 {
-	all_direction = dir;
+	s_allDirection = dir;
 }
 
 Vector2 Invader::GetAllDirection()
 {
-	return all_direction;
+	return s_allDirection;
 }
 
 Invader * Invader::Invader1(int x, int y)
@@ -35,7 +36,8 @@ Invader * Invader::Invader3(int x, int y)
 
 void Invader::Update(double delta)
 {
-	rect.x += (int)(all_direction.x * INVADER_MOVE_X);
-	rect.y += (int)(all_direction.y * INVADER_MOVE_X);
-	anim.Update();
+	UNUSED(delta);
+	m_rect.x += s_allDirection.x * INVADER_MOVE_X;
+	m_rect.y += s_allDirection.y * INVADER_MOVE_Y;
+	m_anim.Update();
 }

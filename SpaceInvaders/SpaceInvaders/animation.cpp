@@ -1,4 +1,4 @@
-#include "Animation.h"
+#include "animation.h"
 
 Animation::Animation()
 {
@@ -61,7 +61,7 @@ void Animation::Update() {
 
 	//	allows animation to catch up in case of fps drops
 	uint64_t current_time = timer.GetTime();
-	
+
 	//std::cout << "current time: " << current_time << std::endl << "frame time: " << frame_time << std::endl;
 
 	//TODO this logic is broken... just using for debugging
@@ -105,5 +105,5 @@ const SDL_Rect * Animation::CurrentFrame() {
 
 Animation::~Animation()
 {
-	
+
 }

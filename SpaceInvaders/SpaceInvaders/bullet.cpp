@@ -3,13 +3,14 @@
 Bullet::Bullet(Entity* source, EntityType type) 
 	: Entity(source->GetX(), source->GetY(), type)
 {
-	this->source = source;
-	direction = (source->Type() == PLAYER) ? UP : DOWN;
-	anim.Play();
+	m_source = source;
+	m_direction = (source->Type() == PLAYER) ? UP : DOWN;
+	m_anim.Play();
 }
 
 void Bullet::Update(double delta)
 {
-	anim.Update();
-	rect.y += (int)(speed * direction.y * delta);
+	m_anim.Update();
+	double step = SPEED * m_direction.y * delta;
+	m_rect.y += static_cast<int>(step);
 }
